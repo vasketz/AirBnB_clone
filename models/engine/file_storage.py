@@ -16,14 +16,14 @@ class FileStorage():
         """
         Returns the dicctionary __objects
         """
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """
         sets in __objects the obj with key <obj clas name>.id
         """
         self.__objects = {"{}.{}".format(obj.__class__.__name__, obj.id): obj}
-        return self.__objects
+        return self.__objects.update()
 
     def save(self):
         """
@@ -39,6 +39,6 @@ class FileStorage():
         """
         try:
             with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
-                FileStorage.__objects = json.load(file)
+                json.load(file)
         except:
             pass
