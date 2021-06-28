@@ -22,8 +22,8 @@ class FileStorage():
         """
         sets in __objects the obj with key <obj clas name>.id
         """
-        self.__objects = {"{}.{}".format(obj.__class__.__name__, obj.id): obj}
-        return self.__objects.update()
+        name = "{}.{}".format(obj.__class__.__name__, obj.id)
+        FileStorage.__objects[name] = obj.to_dict()
 
     def save(self):
         """
