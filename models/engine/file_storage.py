@@ -39,6 +39,6 @@ class FileStorage():
         """
         try:
             with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
-                json.load(file)
+                FileStorage.__objects = json.load(file)
         except:
             pass
