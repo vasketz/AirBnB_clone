@@ -3,6 +3,7 @@
 module of engine storage
 """
 import json
+from models.base_model import BaseModel
 
 
 class FileStorage():
@@ -16,21 +17,24 @@ class FileStorage():
         """
         Returns the dicctionary __objects
         """
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
         """
         sets in __objects the obj with key <obj clas name>.id
         """
         name = "{}.{}".format(obj.__class__.__name__, obj.id)
-        FileStorage.__objects[name] = obj.to_dict()
+        self.__objects[name] = obj
 
     def save(self):
         """
         serializes __objects to the JSON file (path: __file_path)
         """
-        with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
-            json.dump(FileStorage.__objects, file)
+        dicc = {}
+        for key, value in self.__objects.items():
+            dicc[key] = value.to_dict()
+        with open(self.__file_path, "w", encoding="utf-8") as file:
+            json.dump(dicc, file, indent=4)
 
     def reload(self):
         """
@@ -38,7 +42,9 @@ class FileStorage():
         exists: otherwise, do nothing. if the file doesn't exist, no exception should be raised)
         """
         try:
-            with open(FileStorage.__file_path, "r", encoding="utf-8") as file:
-                FileStorage.__objects = json.load(file)
+            with open(self.__file_path, "r", encoding="utf-8") as file:
+                j_json = json.load(file)
+                for key, value in j_json.items():
+                    self.__objects[key] = BaseModel(**value)
         except:
             pass
