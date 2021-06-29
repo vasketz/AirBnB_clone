@@ -38,7 +38,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn´t exist **")
         else:
             print("** class name missing **")
-        
+
     def do_show(self, args):
         """print the string representation of an instance 
         based on the class name and id
@@ -53,14 +53,11 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         else:
             key = "BaseModel.{}".format(lista[1])
-            if key is not res:
+            if key not in res:
                 print("** no instance found **")
             else:
-                for keys, value in res.items():
-                    if keys == key:
-                        print(keys)
-           
-
+                for value in res.values():
+                    print(value)
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
