@@ -3,7 +3,6 @@
 program to console.py
 """
 import cmd
-from models import base_model
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 from models import storage
@@ -15,12 +14,12 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
-    def do_EOF(self, *args):
+    def do_EOF(self, args):
         """Command to exit the program
         """
         return True
 
-    def do_quit(self, *args):
+    def do_quit(self, args):
         """Quit command to exit the program
         """
         return True
