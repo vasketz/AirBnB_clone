@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Now we can recreate a BaseModel from another one 
+Now we can recreate a BaseModel from another one
 by using a dictionary representation:
 <class 'BaseModel'> -> to_dict() -> <class 'dict'> -> <class 'BaseModel'>
 """
