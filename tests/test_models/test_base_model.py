@@ -5,6 +5,7 @@ Unitest base model
 from unittest import TestCase
 from models.base_model import BaseModel
 
+
 class TestBaseModel(TestCase):
     """
     Class test
