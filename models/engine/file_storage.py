@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """
-module of engine storage
+Now we can recreate a BaseModel from another one 
+by using a dictionary representation:
+<class 'BaseModel'> -> to_dict() -> <class 'dict'> -> <class 'BaseModel'>
 """
 import json
 from models.base_model import BaseModel
@@ -8,7 +10,7 @@ from models.base_model import BaseModel
 
 class FileStorage():
     """
-    class storage
+    class storage to process the data
     """
     __file_path = "file.json"
     __objects = {}
