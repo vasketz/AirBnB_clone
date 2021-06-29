@@ -24,9 +24,9 @@ class HBNBCommand(cmd.Cmd):
         """Quit command to exit the program
         """
         return True
-    
+
     def do_create(self, args):
-        """Creates a new instance of BaseModel, saves it (to the json file) 
+        """Creates a new instance of BaseModel, saves it (to the json file)
         and prints the id
         """
         lista = args.split(" ")
@@ -40,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
     def do_show(self, args):
-        """print the string representation of an instance 
+        """print the string representation of an instance
         based on the class name and id
         """
         lista = args.split(" ")
