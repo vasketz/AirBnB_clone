@@ -40,5 +40,6 @@ class BaseModel():
         return dict(self.__dict__, **new_dic)
 
     def save(self):
+        """save funtion to update the time"""
         self.updated_at = datetime.now()
         models.storage.save()
