@@ -34,7 +34,6 @@ class HBNBCommand(cmd.Cmd):
         and prints the id
         """
         lista = args.split(" ")
-
         if lista[0] == "BaseModel":
             obj = BaseModel()
             print("{}".format(obj.id))
@@ -60,8 +59,9 @@ class HBNBCommand(cmd.Cmd):
             if key not in res:
                 print("** no instance found **")
             else:
-                for value in res.values():
-                    print(value)
+                for keys, value in res.items():
+                    if keys == key:
+                        print(value)
 
     def do_destroy(self, args):
         """Deletes an instance based on the class name and id
@@ -79,7 +79,49 @@ class HBNBCommand(cmd.Cmd):
             if key not in res:
                 print("** no instance found **")
             else:
-                del key[key]
+                del res[key]
+
+    def do_all(self, args):
+        """Prints all string representation of all
+        instances based or not on the class name.
+        """
+        res = storage.all()
+        arg = args.split(" ")
+        lista = []
+        if arg[0] is "":
+            for keys, value in res.items():
+                lista.append(value.__str__())
+            print(lista)
+        elif arg[0] != "BaseModel":
+            print("** class doesn't exist **")
+        else:
+            for keys, value in res.items():
+                lista.append(value.__str__())
+            print(lista)
+
+    def do_update(self, args):
+        """Updates an instance based on the class name and id
+        by adding or updating attribute
+        """
+        arg = args.split(" ")
+        res = storage.all()
+        if arg[0] is "":
+            print("** class name missing **")
+        elif arg[0] != "BaseModel":
+            print("** class doesn't exist **")
+        elif arg[1] is "":
+            print("** instance id missing **")
+        elif arg[2] is "":
+            print("** attribute name missing **")
+        elif arg[3] is "":
+            print("** value missing **")
+        else:
+            key = "BaseModel.{}".format(arg[1])
+            if key not in res:
+                print("** no instance found **")
+            else:
+                res[key].__dict__[arg[2]] = arg[3]
+                res[key].storage.save()
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
