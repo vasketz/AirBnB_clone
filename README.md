@@ -109,7 +109,7 @@ $ echo "destroy BaseModel 11c736fd-9638-4124-b034-632059325fa4" | ./console.py
 $
 
 ```
-## Autores ✒️
+## Autors ✒️
 
 _This project was made:_
 
