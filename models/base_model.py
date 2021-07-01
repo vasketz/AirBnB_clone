@@ -31,7 +31,8 @@ class BaseModel():
         """
         Returns a format of string
         """
-        return str("[BaseModel] ({}) {}".format(self.id, self.__dict__))
+        return str("[{}] ({}) {}".format(
+            self.__class__.__name__, self.id, self.__dict__))
 
     def to_dict(self):
         """
