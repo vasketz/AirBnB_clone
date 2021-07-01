@@ -10,7 +10,10 @@ from datetime import datetime
 class TestBaseModel(TestCase):
     """
     Class test
-    """
+    """ 
+    def save(self):
+        self.updated_at = datetime.utcnow()
+
     def test_id(self):
         object1 = BaseModel()
         object2 = BaseModel()
