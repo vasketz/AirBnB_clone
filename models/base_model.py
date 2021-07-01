@@ -12,7 +12,7 @@ class BaseModel():
 
     def __init__(self, *args, **kwargs):
         """
-        Contructor
+        Contructor to process the dicctionaries
         """
         if kwargs:
             for key, value in kwargs.items():
@@ -29,7 +29,7 @@ class BaseModel():
             models.storage.new(self)
 
     def __str__(self):
-        """Return string"""
+        """Returns a format of string"""
         return str("[BaseModel] ({}) {}".format(self.id, self.__dict__))
 
     def to_dict(self):
