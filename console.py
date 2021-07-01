@@ -6,6 +6,7 @@ import cmd
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
 from models import storage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -33,11 +34,14 @@ class HBNBCommand(cmd.Cmd):
         """Creates a new instance of BaseModel, saves it (to the json file)
         and prints the id
         """
-        lista = args.split(" ")
-        if lista[0] == "BaseModel":
+        arg = args.split(" ")
+        if arg[0] == "BaseModel":
             obj = BaseModel()
             print("{}".format(obj.id))
-        elif lista[0] != "BaseModel":
+        if arg[0] == "User":
+            obj = User()
+            print("{}".format(obj.id))
+        elif arg[0] != "BaseModel" and arg[0] != "User":
             print("** class doesn´t exist **")
         else:
             print("** class name missing **")
@@ -46,40 +50,44 @@ class HBNBCommand(cmd.Cmd):
         """print the string representation of an instance
         based on the class name and id
         """
-        lista = args.split(" ")
+        arg = args.split(" ")
         res = storage.all()
-        if lista[0] is "":
+        if arg[0] is "":
             print("** class name missing **")
-        elif lista[0] != "BaseModel":
+        elif arg[0] != "BaseModel" and arg[0] != "User":
             print("** class doesn't exist **")
-        elif len(lista) == 1:
+        elif len(arg) == 1:
             print("** instance id missing **")
         else:
-            key = "BaseModel.{}".format(lista[1])
-            if key not in res:
+            key = "BaseModel.{}".format(arg[1])
+            key1 = "User.{}".format(arg[1])
+            if key not in res and key1 not in res:
                 print("** no instance found **")
             else:
                 for keys, value in res.items():
-                    if keys == key:
+                    if keys == key or keys == key1:
                         print(value)
 
     def do_destroy(self, args):
         """Deletes an instance based on the class name and id
         """
-        lista = args.split(" ")
+        arg = args.split(" ")
         res = storage.all()
-        if lista[0] is "":
+        if arg[0] is "":
             print("** class name missing **")
-        elif lista[0] != "BaseModel":
+        elif arg[0] != "BaseModel" and arg[0] != "User":
             print("** class doesn't exist **")
-        elif len(lista) == 1:
+        elif len(arg) == 1:
             print("** instance id missing **")
         else:
-            key = "BaseModel.{}".format(lista[1])
-            if key not in res:
-                print("** no instance found **")
-            else:
+            key = "BaseModel.{}".format(arg[1])
+            key1 = "User.{}".format(arg[1])
+            if key in res:
                 del res[key]
+            if key1 in res:
+                del res[key1]
+            else:
+                print("** no instance found **")
 
     def do_all(self, args):
         """Prints all string representation of all
@@ -87,17 +95,17 @@ class HBNBCommand(cmd.Cmd):
         """
         res = storage.all()
         arg = args.split(" ")
-        lista = []
+        arg = []
         if arg[0] is "":
             for keys, value in res.items():
-                lista.append(value.__str__())
-            print(lista)
-        elif arg[0] != "BaseModel":
+                arg.append(value.__str__())
+            print(arg)
+        elif arg[0] != "BaseModel" and arg[0] != "User":
             print("** class doesn't exist **")
         else:
             for keys, value in res.items():
-                lista.append(value.__str__())
-            print(lista)
+                arg.append(value.__str__())
+            print(arg)
 
     def do_update(self, args):
         """Updates an instance based on the class name and id
@@ -105,23 +113,27 @@ class HBNBCommand(cmd.Cmd):
         """
         arg = args.split(" ")
         res = storage.all()
-        if arg[0] is "":
+        if arg[0] == "":
             print("** class name missing **")
-        elif arg[0] != "BaseModel":
+        elif arg[0] != "BaseModel" and arg[0] != "User":
             print("** class doesn't exist **")
-        elif arg[1] is "":
+        elif len(arg) == 1 and arg[0] != "":
             print("** instance id missing **")
-        elif arg[2] is "":
+        elif len(arg) == 2:
             print("** attribute name missing **")
-        elif arg[3] is "":
+        elif len(arg) == 3:
             print("** value missing **")
         else:
             key = "BaseModel.{}".format(arg[1])
-            if key not in res:
-                print("** no instance found **")
-            else:
+            key1 = "User.{}".format(arg[1])
+            if key in res:
                 res[key].__dict__[arg[2]] = arg[3]
-                res[key].storage.save()
+                res[key].save()
+            if key1 in res:
+                res[key1].__dict__[arg[2]] = arg[3]
+                res[key1].save()
+            else:
+                print("** no instance found **")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
