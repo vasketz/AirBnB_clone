@@ -24,7 +24,6 @@ class HBNBCommand(cmd.Cmd):
         """Command to exit the program
         """
         return True
-
     def do_quit(self, args):
         """Quit command to exit the program
         """
@@ -35,16 +34,18 @@ class HBNBCommand(cmd.Cmd):
         and prints the id
         """
         arg = args.split(" ")
-        if arg[0] == "BaseModel":
+        if arg[0] == "":
+            print("** class name missing **")
+        elif arg[0] == "BaseModel":
             obj = BaseModel()
+            obj.save()
             print("{}".format(obj.id))
-        if arg[0] == "User":
+        elif arg[0] == "User":
             obj = User()
+            obj.save()
             print("{}".format(obj.id))
         elif arg[0] != "BaseModel" and arg[0] != "User":
-            print("** class doesn´t exist **")
-        else:
-            print("** class name missing **")
+            print("** class doesn't exist **")
 
     def do_show(self, args):
         """print the string representation of an instance
