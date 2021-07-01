@@ -9,7 +9,6 @@ class BaseModel():
     """
     parent class BaseModel
     """
-
     def __init__(self, *args, **kwargs):
         """
         Contructor to process the dicctionaries
@@ -29,17 +28,23 @@ class BaseModel():
             models.storage.new(self)
 
     def __str__(self):
-        """Returns a format of string"""
+        """
+        Returns a format of string
+        """
         return str("[BaseModel] ({}) {}".format(self.id, self.__dict__))
 
     def to_dict(self):
-        """Return dictionary"""
+        """
+        Return dictionary
+        """
         new_dic = {'updated_at': self.updated_at.isoformat(),
                    'created_at': self.created_at.isoformat(),
                    '__class__': self.__class__.__name__}
         return dict(self.__dict__, **new_dic)
 
     def save(self):
-        """save funtion to update the time"""
+        """
+        save funtion to update the time
+        """
         self.updated_at = datetime.now()
         models.storage.save()
