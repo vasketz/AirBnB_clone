@@ -2,14 +2,20 @@
 """
 unittest for FileStorage
 """
+import os.path
+from datetime import datetime
 import unittest
 import json
 from models.base_model import BaseModel
-dicct = {'my_number': 89, 
-         'updated_at': datetime.datetime(2017, 9, 28, 21, 7, 25, 47381), 
-         'created_at': datetime.datetime(2017, 9, 28, 21, 7, 25, 47372), 
-         'name': 'Holberton', 
-         'id': 'ee49c413-023a-4b49-bd28-f2936c95460d'}
+from models.engine.file_storage import FileStorage
+
+dicct = {'my_number': 89,
+         'name': 'Holberton',
+         '__class__': 'BaseModel',
+         'updated_at': '2017-09-28T21:05:54.119572',
+         'id': 'b6a6e15c-c67d-4312-9a75-9d084935e579',
+         'created_at': '2017-09-28T21:05:54.119427'}
+
 
 class TestFileStorage(unittest.TestCase):
     """
@@ -17,7 +23,7 @@ class TestFileStorage(unittest.TestCase):
     """
     storage = FileStorage()
     path = storage._FileStorage__file_path
-    bm_instance = BaseModel(**my_dict)
+    bm_instance = BaseModel(**dicct)
     storage.new(bm_instance)
 
     def test_storage_isinstance(self):
@@ -37,11 +43,11 @@ class TestFileStorage(unittest.TestCase):
         """
         Test for instances reloaded from path
         """
-        key = my_dict["__class__"] + "." + my_dict["id"]
+        key = dicct["__class__"] + "." + dicct["id"]
         with open(TestFileStorage.path, mode="r", encoding="utf-8") as f:
             reader = json.load(f)
         attributes = reader[key]
-        self.assertEqual(my_dict, attributes)
+        self.assertEqual(dicct, attributes)
         self.assertIsInstance(TestFileStorage.storage.all()[key], BaseModel)
 
     def test_save_another_instance(self):
