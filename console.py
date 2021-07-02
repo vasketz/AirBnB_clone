@@ -99,8 +99,7 @@ class HBNBCommand(cmd.Cmd):
         """
         res = storage.all()
         arg = args.split(" ")
-        arg = []
-        if arg[0] is "":
+        if arg[0] is None:
             for keys, value in res.items():
                 arg.append(value.__str__())
             print(arg)
