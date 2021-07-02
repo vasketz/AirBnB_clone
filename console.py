@@ -24,6 +24,7 @@ class HBNBCommand(cmd.Cmd):
         """Command to exit the program
         """
         return True
+
     def do_quit(self, args):
         """Quit command to exit the program
         """
@@ -85,8 +86,10 @@ class HBNBCommand(cmd.Cmd):
             key1 = "User.{}".format(arg[1])
             if key in res:
                 del res[key]
+                res.save()
             if key1 in res:
                 del res[key1]
+                res.save()
             else:
                 print("** no instance found **")
 
