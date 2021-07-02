@@ -86,10 +86,8 @@ class HBNBCommand(cmd.Cmd):
             key1 = "User.{}".format(arg[1])
             if key in res:
                 del res[key]
-                res.save()
             if key1 in res:
                 del res[key1]
-                res.save()
             else:
                 print("** no instance found **")
 
@@ -137,6 +135,3 @@ class HBNBCommand(cmd.Cmd):
                 res[key1].save()
             else:
                 print("** no instance found **")
-
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
