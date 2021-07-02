@@ -101,8 +101,8 @@ class HBNBCommand(cmd.Cmd):
         instances based or not on the class name.
         """
         res = storage.all()
-        arg = args.split(" ")
-        if arg[0] is None:
+        arg = args.split()
+        if len(arg) == 0:
             for keys, value in res.items():
                 arg.append(value.__str__())
             print(arg)
