@@ -9,6 +9,9 @@ from models import storage
 from models.user import User
 
 
+
+
+
 class HBNBCommand(cmd.Cmd):
     """
     class console
@@ -73,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, args):
         """Deletes an instance based on the class name and id
         """
-        arg = args.split(" ")
+        arg = args.split()
         res = storage.all()
         if arg[0] is "":
             print("** class name missing **")
@@ -86,8 +89,10 @@ class HBNBCommand(cmd.Cmd):
             key1 = "User.{}".format(arg[1])
             if key in res:
                 del res[key]
-            if key1 in res:
+                storage.save()
+            elif key1 in res:
                 del res[key1]
+                storage.save()
             else:
                 print("** no instance found **")
 
@@ -135,3 +140,6 @@ class HBNBCommand(cmd.Cmd):
                 res[key1].save()
             else:
                 print("** no instance found **")
+
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
