@@ -78,7 +78,7 @@ class HBNBCommand(cmd.Cmd):
         """
         arg = args.split()
         res = storage.all()
-        if arg[0] is "":
+        if len(arg) == 0:
             print("** class name missing **")
         elif arg[0] != "BaseModel" and arg[0] != "User":
             print("** class doesn't exist **")
@@ -141,5 +141,3 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
