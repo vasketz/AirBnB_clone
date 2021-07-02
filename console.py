@@ -3,13 +3,24 @@
 program to console.py
 """
 import cmd
+from models.__init__ import storage
 from models.engine.file_storage import FileStorage
 from models.base_model import BaseModel
-from models import storage
 from models.user import User
-
-
-
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+class_selection = {
+            "BaseModel": BaseModel,
+            "User": User,
+            "State": State,
+            "City": City,
+            "Amenity": Amenity,
+            "Place": Place,
+            "Review": Review
+            }
 
 
 class HBNBCommand(cmd.Cmd):
@@ -37,40 +48,35 @@ class HBNBCommand(cmd.Cmd):
         """Creates a new instance of BaseModel, saves it (to the json file)
         and prints the id
         """
-        arg = args.split(" ")
-        if arg[0] == "":
+        arg = args.split()
+        if len(arg) == 0:
             print("** class name missing **")
-        elif arg[0] == "BaseModel":
-            obj = BaseModel()
+        elif arg[0] in class_selection.keys():
+            obj = class_selection[arg[0]]()
             obj.save()
             print("{}".format(obj.id))
-        elif arg[0] == "User":
-            obj = User()
-            obj.save()
-            print("{}".format(obj.id))
-        elif arg[0] != "BaseModel" and arg[0] != "User":
+        else:
             print("** class doesn't exist **")
 
     def do_show(self, args):
         """print the string representation of an instance
         based on the class name and id
         """
-        arg = args.split(" ")
+        arg = args.split()
         res = storage.all()
         if arg[0] is "":
             print("** class name missing **")
-        elif arg[0] != "BaseModel" and arg[0] != "User":
+        elif arg[0] not in class_selection.keys():
             print("** class doesn't exist **")
         elif len(arg) == 1:
             print("** instance id missing **")
         else:
-            key = "BaseModel.{}".format(arg[1])
-            key1 = "User.{}".format(arg[1])
-            if key not in res and key1 not in res:
+            key = "{}.{}".format(arg[0], arg[1])
+            if key not in res:
                 print("** no instance found **")
             else:
                 for keys, value in res.items():
-                    if keys == key or keys == key1:
+                    if keys == key:
                         print(value)
 
     def do_destroy(self, args):
@@ -80,18 +86,14 @@ class HBNBCommand(cmd.Cmd):
         res = storage.all()
         if len(arg) == 0:
             print("** class name missing **")
-        elif arg[0] != "BaseModel" and arg[0] != "User":
+        elif arg[0] not in class_selection.keys():
             print("** class doesn't exist **")
         elif len(arg) == 1:
             print("** instance id missing **")
         else:
-            key = "BaseModel.{}".format(arg[1])
-            key1 = "User.{}".format(arg[1])
+            key = "{}.{}".format(arg[0], arg[1])
             if key in res:
                 del res[key]
-                storage.save()
-            elif key1 in res:
-                del res[key1]
                 storage.save()
             else:
                 print("** no instance found **")
@@ -106,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
             for keys, value in res.items():
                 arg.append(value.__str__())
             print(arg)
-        elif arg[0] != "BaseModel" and arg[0] != "User":
+        elif arg[0] not in class_selection.keys():
             print("** class doesn't exist **")
         else:
             for keys, value in res.items():
@@ -119,25 +121,28 @@ class HBNBCommand(cmd.Cmd):
         """
         arg = args.split(" ")
         res = storage.all()
-        if arg[0] == "":
+        if len(arg) == 0:
             print("** class name missing **")
-        elif arg[0] != "BaseModel" and arg[0] != "User":
+            return 0
+        elif arg[0] not in class_selection.keys():
             print("** class doesn't exist **")
-        elif len(arg) == 1 and arg[0] != "":
+            return 0
+        elif len(arg) == 1:
             print("** instance id missing **")
+            return 0
         elif len(arg) == 2:
             print("** attribute name missing **")
+            return 0
         elif len(arg) == 3:
             print("** value missing **")
+            return 0
         else:
-            key = "BaseModel.{}".format(arg[1])
-            key1 = "User.{}".format(arg[1])
-            if key in res:
+            key = "{}.{}".format(arg[0], arg[1])
+            if key in res.keys():
                 res[key].__dict__[arg[2]] = arg[3]
-                res[key].save()
-            if key1 in res:
-                res[key1].__dict__[arg[2]] = arg[3]
-                res[key1].save()
+                storage.save()
             else:
                 print("** no instance found **")
 
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
