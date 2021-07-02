@@ -49,6 +49,7 @@ class FileStorage():
             with open(self.__file_path, "r", encoding="utf-8") as file:
                 j_json = json.load(file)
                 for key, value in j_json.items():
-                    self.__objects[key] = eval(value["__class__"] + "(**value)")
+                    self.__objects[key] = eval(
+                        value["__class__"] + "(**value)")
         except:
             pass
